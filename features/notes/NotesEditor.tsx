@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { generateId } from '@/lib/utils';
 import { AtlasItem } from '@/types/atlas';
 import {
   FileCode2,
@@ -66,7 +67,7 @@ export function NotesEditor({
     }
 
     const noteItem: AtlasItem = {
-      id: existingNote ? existingNote.id : `note-${Date.now()}`,
+      id: existingNote ? existingNote.id : generateId('note'),
       title: title || 'Untitled Note',
       type: 'note',
       content,

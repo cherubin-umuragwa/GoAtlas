@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getGeminiClient } from '@/lib/gemini';
+import { generateContentWithFallback } from '@/lib/gemini';
 import { Type } from '@google/genai';
 
 export async function POST(req: NextRequest) {
@@ -9,8 +9,6 @@ export async function POST(req: NextRequest) {
     if (!base64Data) {
       return NextResponse.json({ error: 'base64Data is required' }, { status: 400 });
     }
-
-    const ai = getGeminiClient();
 
     const cleanBase64 = base64Data.replace(/^data:image\/\w+;base64,/, '');
 
@@ -28,8 +26,7 @@ export async function POST(req: NextRequest) {
 3. Generate a refined title, concise summary, key takeaways, primary category, and tags.`,
     };
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.6-flash',
+    const response = await generateContentWithFallback({
       contents: { parts: [imagePart, textPart] },
       config: {
         systemInstruction: 'You are an advanced OCR and document intelligence engine for GoAtlas.',
@@ -69,3 +66,4 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+

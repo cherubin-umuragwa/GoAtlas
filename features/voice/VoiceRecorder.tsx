@@ -28,13 +28,18 @@ export function VoiceRecorder({ onSaveVoiceItem }: VoiceRecorderProps) {
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [aiResult, setAiResult] = useState<any | null>(null);
+  const [micError, setMicError] = useState<string | null>(null);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<any>(null);
 
   const startRecording = async () => {
+    setMicError(null);
     try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Microphone recording is not supported in this browser context.');
+      }
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorderRef.current = new MediaRecorder(stream);
       audioChunksRef.current = [];
@@ -58,9 +63,11 @@ export function VoiceRecorder({ onSaveVoiceItem }: VoiceRecorderProps) {
       timerRef.current = setInterval(() => {
         setRecordingSeconds((prev) => prev + 1);
       }, 1000);
-    } catch (err) {
-      console.error('Microphone access error:', err);
-      alert('Could not access microphone. Please check browser permissions.');
+    } catch (err: any) {
+      console.warn('Microphone access error:', err?.message || err);
+      setMicError(
+        'Microphone access is unavailable or denied. You can still type or paste your spoken ideas directly into the text box below to synthesize with AI.'
+      );
     }
   };
 
@@ -181,6 +188,15 @@ export function VoiceRecorder({ onSaveVoiceItem }: VoiceRecorderProps) {
           <p className="text-xs text-neutral-500 font-medium">
             {isRecording ? 'Recording audio... Click stop when finished.' : 'Click mic to start recording audio'}
           </p>
+
+          {micError && (
+            <div className="max-w-md mx-auto p-3 text-xs bg-amber-50 border border-amber-200 text-amber-800 rounded-xl space-y-1">
+              <p>{micError}</p>
+              <p className="text-[11px] text-amber-700">
+                💡 <strong>Tip:</strong> If you are viewing inside an embedded preview iframe, opening the app in a new tab allows your browser to prompt for microphone permission directly.
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Audio Player if URL exists */}

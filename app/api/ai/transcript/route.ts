@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getGeminiClient } from '@/lib/gemini';
+import { generateContentWithFallback } from '@/lib/gemini';
 import { Type } from '@google/genai';
 
 export async function POST(req: NextRequest) {
@@ -12,8 +12,6 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-
-    const ai = getGeminiClient();
 
     let parts: any[] = [];
 
@@ -40,8 +38,7 @@ Tasks:
       });
     }
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.6-flash',
+    const response = await generateContentWithFallback({
       contents: { parts },
       config: {
         systemInstruction: 'You are an intelligent audio transcription and note processor for GoAtlas.',
@@ -80,3 +77,4 @@ Tasks:
     );
   }
 }
+

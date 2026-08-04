@@ -197,7 +197,7 @@ export class AtlasStorage {
     const notifs = this.getNotifications();
     const newNotif: AtlasNotification = {
       ...notif,
-      id: `notif-${Date.now()}`,
+      id: `notif-${Date.now()}-${Math.floor(Math.random() * 10000)}`,
       createdAt: new Date().toISOString(),
       read: false,
     };

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { generateId } from '@/lib/utils';
 import { AtlasItem, Highlight } from '@/types/atlas';
 import {
   X,
@@ -66,7 +67,7 @@ export function SmartReader({ item, onClose, onUpdateItem }: SmartReaderProps) {
   const handleAddHighlight = (color: Highlight['color']) => {
     if (!selectedText) return;
     const newHl: Highlight = {
-      id: `hl-${Date.now()}`,
+      id: generateId('hl'),
       text: selectedText,
       color,
       createdAt: new Date().toISOString(),

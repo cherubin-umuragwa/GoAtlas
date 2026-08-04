@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { generateId } from '@/lib/utils';
 import { AtlasCollection, AtlasItem } from '@/types/atlas';
 import {
   Folder,
@@ -63,7 +64,7 @@ export function CollectionsView({
   const handleCreate = () => {
     if (!newColName.trim()) return;
     const newCol: AtlasCollection = {
-      id: `col-${Date.now()}`,
+      id: generateId('col'),
       name: newColName,
       description: newColDesc || 'Custom GoAtlas collection',
       icon: selectedIcon,

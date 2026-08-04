@@ -8,6 +8,12 @@ import {
   AtlasNotification,
 } from '@/types/atlas';
 import { AtlasStorage } from '@/lib/storage/atlasStorage';
+import {
+  INITIAL_ITEMS,
+  DEFAULT_COLLECTIONS,
+  DEFAULT_SETTINGS,
+  INITIAL_NOTIFICATIONS,
+} from '@/lib/storage/seedData';
 import { SidebarNav, NavTab } from '@/components/shared/SidebarNav';
 import { HeaderNav } from '@/components/shared/HeaderNav';
 import { UniversalInbox } from '@/features/inbox/UniversalInbox';
@@ -27,15 +33,26 @@ import { PWAInstallPrompt } from '@/features/pwa/PWAInstallPrompt';
 
 export default function GoAtlasApp() {
   const [activeTab, setActiveTab] = useState<NavTab>('inbox');
-  const [items, setItems] = useState<AtlasItem[]>(() => AtlasStorage.getItems());
-  const [collections, setCollections] = useState<AtlasCollection[]>(() => AtlasStorage.getCollections());
-  const [notifications, setNotifications] = useState<AtlasNotification[]>(() => AtlasStorage.getNotifications());
-  const [settings, setSettings] = useState<UserSettings>(() => AtlasStorage.getSettings());
+  const [items, setItems] = useState<AtlasItem[]>(INITIAL_ITEMS);
+  const [collections, setCollections] = useState<AtlasCollection[]>(DEFAULT_COLLECTIONS);
+  const [notifications, setNotifications] = useState<AtlasNotification[]>(INITIAL_NOTIFICATIONS);
+  const [settings, setSettings] = useState<UserSettings>(DEFAULT_SETTINGS);
 
   const [isQuickCaptureOpen, setIsQuickCaptureOpen] = useState(false);
   const [activeReaderItem, setActiveReaderItem] = useState<AtlasItem | null>(null);
   const [selectedCollection, setSelectedCollection] = useState<AtlasCollection | null>(null);
   const [isNotifModalOpen, setIsNotifModalOpen] = useState(false);
+
+  // Sync client localStorage after hydration mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setItems(AtlasStorage.getItems());
+      setCollections(AtlasStorage.getCollections());
+      setNotifications(AtlasStorage.getNotifications());
+      setSettings(AtlasStorage.getSettings());
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
 
   // Handlers

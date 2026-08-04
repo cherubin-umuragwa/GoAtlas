@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getGeminiClient } from '@/lib/gemini';
+import { generateContentWithFallback } from '@/lib/gemini';
 import { Type } from '@google/genai';
 import { AtlasItem } from '@/types/atlas';
 
@@ -10,8 +10,6 @@ export async function POST(req: NextRequest) {
     if (!prompt) {
       return NextResponse.json({ error: 'Prompt is required' }, { status: 400 });
     }
-
-    const ai = getGeminiClient();
 
     const libraryContext = (items || []).slice(0, 35).map((item: AtlasItem) => `
 ID: [${item.id}]
@@ -42,8 +40,7 @@ ${(messages || []).slice(-4).map((m: any) => `${m.sender.toUpperCase()}: ${m.tex
 USER QUESTION:
 ${prompt}`;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.6-flash',
+    const response = await generateContentWithFallback({
       contents: fullPrompt,
       config: {
         systemInstruction,
@@ -73,9 +70,12 @@ ${prompt}`;
     });
   } catch (error: any) {
     console.error('Error in /api/ai/chat:', error);
-    return NextResponse.json(
-      { error: error?.message || 'Failed to generate AI response' },
-      { status: 500 }
-    );
+    // Fall back to a client-friendly answer when AI model is temporarily unavailable or busy
+    return NextResponse.json({
+      success: true,
+      answer: 'Atlas Intelligence is currently experiencing high demand. Please try asking your question again in a moment, or browse your saved items using the search bar.',
+      citedItemIds: [],
+    });
   }
 }
+

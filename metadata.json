@@ -1,6 +1,6 @@
 {
   "name": "GoAtlas",
   "description": "Personal Internet Operating System — save, organize, rediscover, and interact with everything online.",
-  "requestFramePermissions": [],
+  "requestFramePermissions": ["camera", "microphone", "geolocation"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
