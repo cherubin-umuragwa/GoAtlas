@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { generateId } from '@/lib/utils';
-import { AtlasItem } from '@/types/atlas';
+import type { AtlasItem } from '@/types/atlas';
 
 import {
   Mic,

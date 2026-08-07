@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { generateId } from '@/lib/utils';
-import { AtlasItem, Highlight } from '@/types/atlas';
+import type { AtlasItem, Highlight } from '@/types/atlas';
 import {
   X,
   Type,

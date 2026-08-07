@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { generateId } from '@/lib/utils';
-import { AtlasCollection, AtlasItem } from '@/types/atlas';
+import type { AtlasCollection, AtlasItem } from '@/types/atlas';
 import {
   Folder,
   Cpu,

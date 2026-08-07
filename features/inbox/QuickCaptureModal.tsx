@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { generateId } from '@/lib/utils';
-import { AtlasItem, ItemType, PrimaryCategory } from '@/types/atlas';
+import type { AtlasItem, ItemType, PrimaryCategory } from '@/types/atlas';
 
 import {
   X,

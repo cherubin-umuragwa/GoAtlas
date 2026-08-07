@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AtlasItem, AtlasCollection } from '@/types/atlas';
+import type { AtlasItem, AtlasCollection } from '@/types/atlas';
 import {
   Link2,
   FileText,
@@ -49,42 +49,28 @@ export function ItemCard({
   const getTypeIcon = () => {
     switch (item.type) {
       case 'link':
-        return <Link2 className="w-4 h-4 text-blue-600" />;
+        return <Link2 className="w-3.5 h-3.5 text-neutral-500" />;
       case 'article':
-        return <BookOpen className="w-4 h-4 text-emerald-600" />;
+        return <BookOpen className="w-3.5 h-3.5 text-neutral-500" />;
       case 'video':
-        return <Video className="w-4 h-4 text-rose-600" />;
+        return <Video className="w-3.5 h-3.5 text-neutral-500" />;
       case 'screenshot':
-        return <Camera className="w-4 h-4 text-purple-600" />;
+        return <Camera className="w-3.5 h-3.5 text-neutral-500" />;
       case 'pdf':
-        return <FileText className="w-4 h-4 text-amber-600" />;
+        return <FileText className="w-3.5 h-3.5 text-neutral-500" />;
       case 'note':
-        return <FileCode2 className="w-4 h-4 text-indigo-600" />;
+        return <FileCode2 className="w-3.5 h-3.5 text-neutral-500" />;
       case 'voice':
-        return <Mic className="w-4 h-4 text-red-500" />;
+        return <Mic className="w-3.5 h-3.5 text-neutral-500" />;
       case 'image':
-        return <ImageIcon className="w-4 h-4 text-pink-600" />;
+        return <ImageIcon className="w-3.5 h-3.5 text-neutral-500" />;
       default:
-        return <File className="w-4 h-4 text-neutral-600" />;
+        return <File className="w-3.5 h-3.5 text-neutral-500" />;
     }
   };
 
-  const getCategoryBadgeColor = (category: string) => {
-    switch (category) {
-      case 'Programming':
-        return 'bg-blue-50 text-blue-700 border-blue-200';
-      case 'Business':
-        return 'bg-violet-50 text-violet-700 border-violet-200';
-      case 'Design':
-        return 'bg-pink-50 text-pink-700 border-pink-200';
-      case 'Finance':
-        return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-      case 'Recipes':
-      case 'Health':
-        return 'bg-amber-50 text-amber-700 border-amber-200';
-      default:
-        return 'bg-neutral-100 text-neutral-700 border-neutral-200';
-    }
+  const getCategoryBadgeColor = () => {
+    return 'bg-neutral-100 text-neutral-700 border-neutral-200';
   };
 
   const formattedDate = new Date(item.createdAt).toLocaleDateString('en-US', {
@@ -93,35 +79,34 @@ export function ItemCard({
   });
 
   return (
-    <div className="group relative bg-white border border-[#ECECEC] rounded-xl p-5 hover:border-neutral-300 transition-all duration-200 shadow-sm hover:shadow-md flex flex-col justify-between">
+    <div className="group relative bg-white border border-[#ECECEC] rounded-xl p-4 sm:p-5 hover:border-neutral-300 transition-all duration-200 shadow-sm hover:shadow-md flex flex-col justify-between w-full max-w-full overflow-hidden box-border">
       <div>
         {/* Top Header Row */}
-        <div className="flex items-center justify-between gap-2 mb-3">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-neutral-50 border border-neutral-200 text-neutral-700">
+        <div className="flex items-start justify-between gap-2 mb-3">
+          <div className="flex items-center gap-1.5 flex-wrap min-w-0 max-w-[calc(100%-80px)]">
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-neutral-50 border border-neutral-200 text-neutral-700 shrink-0">
               {getTypeIcon()}
               <span className="capitalize">{item.type}</span>
             </span>
 
             <span
-              className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${getCategoryBadgeColor(
-                item.category
-              )}`}
+              className={`px-2.5 py-0.5 rounded-full text-xs font-medium border truncate max-w-[120px] ${getCategoryBadgeColor()}`}
+              title={item.category}
             >
               {item.category}
             </span>
 
             {item.domain && (
-              <span className="text-xs text-[#666666] font-mono truncate max-w-[140px]">
+              <span className="text-xs text-[#666666] font-mono truncate max-w-[100px]">
                 {item.domain}
               </span>
             )}
           </div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5 shrink-0 ml-auto">
             <button
               onClick={() => onToggleFavorite(item.id)}
-              className={`p-1.5 rounded-lg transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center ${
+              className={`p-1.5 rounded-lg transition-colors flex items-center justify-center ${
                 item.isFavorite
                   ? 'text-amber-500 bg-amber-50'
                   : 'text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100'
@@ -133,7 +118,7 @@ export function ItemCard({
 
             <button
               onClick={() => onToggleArchive(item.id)}
-              className={`p-1.5 rounded-lg transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center ${
+              className={`p-1.5 rounded-lg transition-colors flex items-center justify-center ${
                 item.isArchived
                   ? 'text-indigo-600 bg-indigo-50'
                   : 'text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100'
@@ -148,13 +133,13 @@ export function ItemCard({
         {/* Title & Reading Trigger */}
         <h3
           onClick={() => onOpenReader(item)}
-          className="text-base font-semibold text-[#111111] hover:text-blue-600 cursor-pointer line-clamp-2 transition-colors leading-snug mb-2"
+          className="text-base font-semibold text-[#111111] hover:text-blue-600 cursor-pointer line-clamp-2 transition-colors leading-snug mb-2 break-words"
         >
           {item.title}
         </h3>
 
         {/* AI Executive Summary */}
-        <p className="text-sm text-[#666666] line-clamp-3 mb-3 leading-relaxed font-sans">
+        <p className="text-sm text-[#666666] line-clamp-3 mb-3 leading-relaxed font-sans break-words">
           {item.summary}
         </p>
 
@@ -165,9 +150,9 @@ export function ItemCard({
               onClick={() => setShowTakeaways(!showTakeaways)}
               className="text-xs font-medium text-neutral-600 hover:text-blue-600 flex items-center gap-1 py-1"
             >
-              <Sparkles className="w-3.5 h-3.5 text-blue-500" />
+              <Sparkles className="w-3.5 h-3.5 text-blue-500 shrink-0" />
               <span>{showTakeaways ? 'Hide AI Key Insights' : 'Show AI Key Insights'}</span>
-              {showTakeaways ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+              {showTakeaways ? <ChevronUp className="w-3.5 h-3.5 shrink-0" /> : <ChevronDown className="w-3.5 h-3.5 shrink-0" />}
             </button>
 
             {showTakeaways && (
@@ -185,18 +170,18 @@ export function ItemCard({
 
         {/* Tags Row */}
         {item.tags && item.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mb-4">
-            {item.tags.slice(0, 4).map((tag, idx) => (
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {item.tags.slice(0, 3).map((tag, idx) => (
               <span
                 key={idx}
-                className="text-[11px] px-2 py-0.5 rounded bg-neutral-100 text-neutral-600 font-mono"
+                className="text-[11px] px-2 py-0.5 rounded bg-neutral-100 text-neutral-600 font-mono truncate max-w-[100px]"
               >
                 #{tag}
               </span>
             ))}
-            {item.tags.length > 4 && (
+            {item.tags.length > 3 && (
               <span className="text-[11px] px-1.5 py-0.5 rounded text-neutral-400 font-mono">
-                +{item.tags.length - 4}
+                +{item.tags.length - 3}
               </span>
             )}
           </div>
@@ -204,16 +189,16 @@ export function ItemCard({
       </div>
 
       {/* Footer Meta & Actions */}
-      <div className="pt-3 border-t border-[#ECECEC] flex items-center justify-between text-xs text-[#666666] mt-auto">
-        <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1" title="Reading time">
+      <div className="pt-3 border-t border-[#ECECEC] flex flex-wrap items-center justify-between gap-y-2 gap-x-1.5 text-xs text-[#666666] mt-auto w-full max-w-full">
+        <div className="flex items-center gap-2 flex-wrap min-w-0">
+          <span className="flex items-center gap-1 shrink-0" title="Reading time">
             <Clock className="w-3.5 h-3.5 text-neutral-400" />
             {item.readingTimeMinutes || 3}m
           </span>
 
           {item.readingProgress !== undefined && item.readingProgress > 0 && (
-            <div className="flex items-center gap-1.5">
-              <div className="w-12 bg-neutral-200 h-1.5 rounded-full overflow-hidden">
+            <div className="flex items-center gap-1 shrink-0">
+              <div className="w-8 sm:w-10 bg-neutral-200 h-1.5 rounded-full overflow-hidden">
                 <div
                   className="bg-blue-600 h-full rounded-full"
                   style={{ width: `${item.readingProgress}%` }}
@@ -226,13 +211,13 @@ export function ItemCard({
           )}
 
           {item.isRead && (
-            <span className="flex items-center gap-1 text-emerald-600 font-medium">
+            <span className="flex items-center gap-1 text-emerald-600 font-medium text-[11px] shrink-0">
               <CheckCircle2 className="w-3.5 h-3.5" /> Read
             </span>
           )}
         </div>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 shrink-0 ml-auto">
           {/* External Link if URL exists */}
           {item.url && (
             <a
@@ -292,7 +277,7 @@ export function ItemCard({
           {/* Open Reader Primary Action */}
           <button
             onClick={() => onOpenReader(item)}
-            className="ml-1 px-2.5 py-1 bg-neutral-900 hover:bg-black text-white text-xs font-medium rounded-md transition-colors"
+            className="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-md transition-colors"
           >
             Read
           </button>
@@ -300,7 +285,7 @@ export function ItemCard({
           {/* Delete Button */}
           <button
             onClick={() => onDelete(item.id)}
-            className="p-1.5 hover:bg-red-50 rounded text-neutral-400 hover:text-red-600 transition-colors ml-1"
+            className="p-1.5 hover:bg-red-50 rounded text-neutral-400 hover:text-red-600 transition-colors"
             title="Delete Item"
           >
             <Trash2 className="w-3.5 h-3.5" />

@@ -1,4 +1,4 @@
-import { AtlasItem, AtlasCollection, UserSettings, AtlasNotification, PrimaryCategory, ItemType } from '@/types/atlas';
+import type { AtlasItem, AtlasCollection, UserSettings, AtlasNotification, PrimaryCategory, ItemType } from '@/types/atlas';
 import { INITIAL_ITEMS, DEFAULT_COLLECTIONS, DEFAULT_SETTINGS, INITIAL_NOTIFICATIONS } from './seedData';
 
 const ITEMS_KEY = 'goatlas_items_v1';

@@ -1,4 +1,4 @@
-import { AtlasItem, AtlasCollection, UserSettings, AtlasNotification } from '@/types/atlas';
+import type { AtlasItem, AtlasCollection, UserSettings, AtlasNotification } from '@/types/atlas';
 
 export const DEFAULT_COLLECTIONS: AtlasCollection[] = [
   {

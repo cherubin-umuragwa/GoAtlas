@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { AtlasNotification } from '@/types/atlas';
+import type { AtlasNotification } from '@/types/atlas';
 import { X, Bell, CheckCircle2, Sparkles, RotateCcw } from 'lucide-react';
 
 interface NotificationsModalProps {

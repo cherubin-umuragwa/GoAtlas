@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { AtlasItem, PrimaryCategory, ItemType } from '@/types/atlas';
+import type { AtlasItem, PrimaryCategory, ItemType } from '@/types/atlas';
 import {
   Search,
   X,

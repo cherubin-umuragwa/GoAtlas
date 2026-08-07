@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { UserSettings } from '@/types/atlas';
+import type { UserSettings } from '@/types/atlas';
 import {
   Settings as SettingsIcon,
   Download,

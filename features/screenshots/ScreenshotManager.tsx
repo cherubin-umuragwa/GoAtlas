@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AtlasItem } from '@/types/atlas';
+import type { AtlasItem } from '@/types/atlas';
 import { ItemCard } from '../inbox/ItemCard';
 import { Camera, Upload, Copy, Check, Sparkles, Search } from 'lucide-react';
 

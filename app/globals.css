@@ -1,11 +1,14 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-    background-color: #FAFAFA;
-    color: #111111;
-  }
+@source "..";
+
+html, body {
+  scroll-behavior: smooth;
+  background-color: #FAFAFA;
+  color: #111111;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 /* Custom Scrollbar */
@@ -26,4 +29,5 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #a1a1aa;
 }
+
 
